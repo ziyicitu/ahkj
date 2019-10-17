@@ -12,16 +12,20 @@ function init_xmlhttp(){
 		xmlhttp=new ActiceXObject("Microsoft.XMLHTTP");
 	}
 }
-function test(){
+function wait_xmlhttp_return(somefunction){
 	xmlhttp.onreadystatechange=function()
 	{
 		if(xmlhttp.readyState==4 && xmlhttp.status==200)
 		{
-			document.getElementById("text").innerHTML=xmlhttp.responseText;
+			somefunction(xmlhttp.responseText);
 		}
-
 	}
-		xmlhttp.open("GET","login.php",true);
-		xmlhttp.send();
+}
+function test(){
+	xmlhttp.open("GET","login.php",true);
+	xmlhttp.send();
+	wait_xmlhttp_return(function(xmlhttp_return){
+		document.getElementById("text").innerHTML=xmlhttp_return;
+	});
 }
 
