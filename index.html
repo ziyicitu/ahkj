@@ -7,10 +7,10 @@
 	<body>
 		<h1>hello</h1>
 		<div id="text"></div>
-		<form id="form-login" onsubmit="login()" action="#" method="post">
-			<p><input name="userName" type="text" id="userName"/></p>
-			<p><input name="password" type="text" id="password"/></p>
-			<p><input type="button" value="login" onclick="#"></p>
+		<form id="form-login" onsubmit="return login()">
+			<p><input type="text" id="userName" placeholder="yourname"/></p>
+			<p><input type="text" id="password" placeholder="password"/></p>
+			<p><input type="submit" value="login"></p>
 		<button type="button" onclick="test()">test</button>
 	</body>
 </html>

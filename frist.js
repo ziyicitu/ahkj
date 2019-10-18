@@ -25,7 +25,18 @@ function test(){
 	xmlhttp.open("GET","login.php",true);
 	xmlhttp.send();
 	wait_xmlhttp_return(function(xmlhttp_return){
-		document.getElementById("text").innerHTML=xmlhttp_return;
+		printf_log(xmlhttp_return);
 	});
+}
+
+function printf_log(log_date){
+	document.getElementById("text").innerHTML+=log_date+"<br>";
+}
+function login(){
+	var login_userName=document.getElementById("userName");
+	var login_password=document.getElementById("password");
+	printf_log(login_userName.value);
+	printf_log(login_password.value);
+	return false;
 }
 
