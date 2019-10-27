@@ -22,8 +22,11 @@ function wait_xmlhttp_return(somefunction){
 	}
 }
 function test(){
-	xmlhttp.open("GET","login.php",true);
-	xmlhttp.send();
+	var username=document.getElementById("userName");
+	var password=document.getElementById("password");
+	xmlhttp.open("post","regin.php",true);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.send("username="+username.value+"&password="+password.value);
 	wait_xmlhttp_return(function(xmlhttp_return){
 		printf_log(xmlhttp_return);
 	});
