@@ -1,8 +1,20 @@
 <?php
 require "link_mysql.php";
 
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+	if(empty($_POST["username"])||empty($_POST["password"])){
+		echo "noooo!";
+		exit();
+	}
+}
+
 $user = $_POST["username"];
 $password = $_POST["password"];
+
+if(!(preg_match("/^[a-zA-Z0-9]",$user)||preg_match("/^[a-zA-Z0-9]",$password))){
+	die("heheheh");
+}
+	
 
 $conn=create_link_mysql();
 mysqli_select_db($conn, "ahkj");
