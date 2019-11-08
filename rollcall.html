@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>随机抽奖</title>
+</head>
+<script>
+    // var num = Math.random() * 100;
+
+    // function testTime() {
+    //     document.getElementById("testtime").innerHTML = "<h2>" + Math.floor(Math.random() * 100) + "</h2>";
+    // }
+
+	var num=[];
+	get_user();
+	function get_user(){
+		var xmlhttp;
+		if(window.XMLHttpRequest){
+			xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{
+			xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+			if(xmlhttp.readyState==4&&xmlhttp.status==200){
+				num = JSON.parse(xmlhttp.responseText);
+			}
+		}
+		xmlhttp.open("GET","read.php?command=display",true);
+		xmlhttp.send();
+	}
+var button_status=0;
+function button_click(){
+	if(button_status==0){
+		timer=setInterval(testTime,50);
+		button_status=1;
+		document.getElementById("button").innerHTML="stop";
+	}
+	else {
+		clearInterval(timer);
+		button_status=0;
+		document.getElementById("button").innerHTML="begin";
+	}
+}
+
+
+window.setInterval("update_number()",3000);
+
+function update_number(){
+		var xmlhttp;
+		if(window.XMLHttpRequest){
+			xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{
+			xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+			if(xmlhttp.readyState==4&&xmlhttp.status==200){
+				document.getElementById("number").innerHTML = xmlhttp.responseText;
+			}
+		}
+		xmlhttp.open("GET","number.php",true);
+		xmlhttp.send();
+	get_user();
+	}
+
+function clear_db(){
+		var xmlhttp;
+	if(window.XMLHttpRequest){
+		xmlhttp=new XMLHttpRequest();
+	}
+	else
+	{
+		xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.readyState==4&&xmlhttp.status==200){
+			num = JSON.parse(xmlhttp.responseText);
+		}
+	}
+	xmlhttp.open("GET","read.php?command=begin",true);
+	xmlhttp.send();
+}
+
+function show_QR(){
+}
+
+
+
+    function testTime() {
+        document.getElementById("testtime").innerHTML = num[Math.floor(Math.random() * num.length)];
+    }
+
+    function setTime(mark) {
+        timer = null;
+        timer = setInterval(testTime, 60);
+        if (mark == 'stop') {
+            clearInterval(timer);
+        }
+    }
+</script>
+<style>
+    body {
+        color: rgb(24, 2, 6);
+        margin: 0;
+        padding: 50px;
+        text-align: center;
+        font-size: 25px;
+        background: url(325360.jpg);
+    }
+    
+    #testtime {
+        position: absolute;
+        padding-top: 150px;
+        border-radius: 60%;
+        font-weight: 700;
+        text-align: center;
+        font-weight: 700;
+        font-size: 50px;
+        top: 35%;
+        left: 40%;
+        width: 300px;
+        height: 300px;
+    }
+    
+    span {
+        display: block;
+        margin-top: 100px;
+        font-weight: 700;
+        font-size: 35px;
+    }
+    
+    button {
+        margin-top: 100px;
+        font-size: 20px;
+        font-weight: 700;
+        width: 100px;
+        height: 50px;
+    }
+</style>
+
+<body>
+	<p>number is <a id="number">0</a></p>
+	<button id="link" onclick="show_QR()">link</button>
+	<button id="clear" onclick="clear_db()">clear</button>
+    <button onclick="button_click()" id="button" value="">开始</button> 
+    <br>
+    <span>幸运的人是:</span>
+    <div id="testtime"></div>
+</body>
+
+</html>

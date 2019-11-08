@@ -79,4 +79,15 @@ function exist_user($name){
 }
 
 
+function user_number(){
+	$conn = create_link_mysql();
+	mysqli_select_db($conn,"ahkj");
+
+	$sql = "select * from randomname";
+	
+	$result = $conn->query($sql);
+
+	return $result->num_rows;
+}
+	
 
