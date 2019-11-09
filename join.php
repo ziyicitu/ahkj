@@ -2,7 +2,7 @@
 
 if($_SERVER["REQUEST_METHOD"]=="GET"){
 	if(empty($_GET["name"])){
-		echo "fail";
+		echo "4";
 		exit;
 	}
 }
@@ -19,7 +19,7 @@ $sql="select * from randomname where name='$name';";
 $result=$conn->query($sql);
 
 if($result->num_rows>0){
-	echo "already have";
+	echo "5";
 	exit;
 };
 
@@ -28,9 +28,9 @@ $sql="insert into randomname (name) value ('$name')";
 $result=$conn->query($sql);
 
 if(!$result){
-	die("fail 2");
+	die("6");
 }
 
-echo "ok";
+echo "1";
 ?>
 

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=0.5,maximum-scale=2.0,user-scalable=yes">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>点名啦</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body {
+        background: url(325360.jpg);
+    }
+    
+    .wrapper {
+        width: 800px;
+        margin: 10px auto;
+        border: 2px solid #ccc;
+        text-align: center;
+        box-shadow: 0px 0px 10px rgb(11, 6, 71);
+    }
+    
+    .lucking {
+        width: 200px;
+        height: 180px;
+        text-align: center;
+        color: rgb(94, 12, 87);
+        font-size: 20px;
+        font-weight: 700;
+        box-shadow: 0px 0px 10px rgb(54, 147, 163) inset;
+        border: 2px solid rgb(181, 175, 199);
+        position: relative;
+    }
+    
+    .lucking img {
+        position: relative;
+        left: 0;
+        bottom: 0;
+    }
+    
+    .wrapper ul li {
+        width: 100px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+        margin: 4px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        /* 不设置float:left的原因
+        1： 浮动不能让父盒子撑开高度 
+        2： display:inline-block 具有行内元素的属性特征，给父盒子加text-align:center 可使其居中
+        */
+        display: inline-block;
+    }
+    
+    .wrapper button {
+        margin-top: 50px;
+        width: 100px;
+        height: 50px;
+        border: none;
+        font-weight: 700;
+        font-size: 20px;
+        background-color: #ddd;
+        border-radius: 5px;
+        font-weight: 700;
+        box-shadow: 0px 0px 10px rgb(185, 38, 141) inset;
+        ;
+        outline: none;
+        cursor: pointer;
+    }
+    
+    .wrapper .active {
+        background-color: #f1084a;
+        font-weight: 700;
+    }
+</style>
+</head>
+
+<body>
+    <div class="wrapper" id="_wrapper">
+        <ul id="_ul"></ul>
+        <button class="start">开始点名</button>
+        <button class="stop">停止</button>
+        <div class="lucking" id="_lucking">
+            <p></p>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    var array = ["韩梦娜", "乔梦晴", "张朋", "陈楠", "崔子煜", "段辉", "李永开", "张长流", "余昌胜", "张通", "李珂", "邱伟", "张强强", "朱梦杰", "戚航", "武品", "谢云龙", "张馨月", "吴创", "金宏照", "任天豪", "韩阳", "高富康", "耿鑫宇", "林先元", "刘力文", "马磊", "高明飞", "李玉鹏", "孟伟", "王新凯", "凡松阳", "胡家标", "骆炯炯", "潘菊", "钱文慧", "汪学波", "李雪", "王逸婷", "胡苏萍", "蒋玲", "徐航", "江涛", "田丽丽", "王全红", "张丹阳", "孙贵涛", "殷彬", "刘知阳", "张宇翔", "阮宏国", "马帅龙", "邱伟", "叶辉文", "陈俊杰", "张浩", "吉文豪", "吴键", "魏路警", "张腾", "郑志伟", "姚胜男", "朱兴成"];
+    // 获取元素
+var xmlhttp;
+if(window.XMLHttpRequest){
+	xmlhttp=new XMLHttpRequest();
+}
+else {
+	xmlhttp=new ActiceXObject("Microsoft.XMLHTTP");
+}
+
+xmlhttp.onreadystatechange=function(){
+	if(xmlhttp.readyState==4&&xmlhttp.status==200){
+		array=JSON.parse(xmlhttp.responseText);
+	}
+}
+xmlhttp.open("GET","read.php?command=display",false);
+xmlhttp.send();
+
+
+    var _wrapper = document.getElementById('_wrapper');
+    var ul = document.getElementById('_ul');;
+    var timer = null;
+    init();
+
+    function init() {
+        // 动态创建li
+        for (var i = 0; i < array.length; i++) {
+            var oli = document.createElement('li');
+            oli.innerHTML = array[i];
+            ul.appendChild(oli);
+        }
+        // 点击
+        click();
+    }
+
+    function click() {
+        // 获取start按钮
+        var start = _wrapper.getElementsByTagName('button')[0];
+        var stop = _wrapper.getElementsByTagName('button')[1];
+        var lucking = document.getElementById('_lucking');
+        // 定时器
+        start.addEventListener('click', function() {
+            clearInterval(timer);
+            timer = setInterval(function() {
+                // 获得随机数
+                var random = Math.floor(Math.random() * array.length);
+                for (var i = 0; i < array.length; i++) {
+                    ul.children[i].className = '';
+                }
+                ul.children[random].className = 'active';
+            }, 50);
+        });
+        stop.addEventListener('click', function() {
+            clearInterval(timer);
+            // 找到此时的元素
+            var active = document.getElementsByClassName('active')[0];
+            lucking.children[0].innerText = "幸运儿：" + active.innerText;
+        })
+    }
+</script>
